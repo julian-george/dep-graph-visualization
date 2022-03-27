@@ -1,0 +1,20 @@
+{
+  "name": "dep-graph-visualization",
+  "version": "1.0.0",
+  "description": "Web app to visualize package dependency trees and git commit trees",
+  "author": "Julian George <julian@juliangeorge.net>",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "lint": "prettier --check **/*",
+    "lint:fix": "prettier --write **/*"
+  },
+  "devDependencies": {
+    "prettier": "^2.6.1",
+    "tsconfig-paths": "^3.14.1",
+    "typescript": "^4.6.3"
+  }
+}
