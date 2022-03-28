@@ -1,7 +1,12 @@
 import React from "react";
+import SelectionScreen from "./SelectionScreen";
 
 const App: React.FC = () => {
-  return <div>Hello!</div>;
+  return (
+    <div>
+      <SelectionScreen />
+    </div>
+  );
 };
 
 export default App;

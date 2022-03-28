@@ -1,5 +1,6 @@
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const ESLintPlugin = require("eslint-webpack-plugin");
 
 const env = process.env.NODE_ENV || "development";
 
@@ -20,7 +21,7 @@ module.exports = {
         test: /\.jsx?$/,
         exclude: /node_modules/,
         resolve: { extensions: [".js", ".jsx"] },
-        use: [{ loader: "babel-loader" }, { loader: "eslint-loader" }],
+        use: [{ loader: "babel-loader" }],
       },
       {
         test: /\.s?css/,
@@ -60,7 +61,6 @@ module.exports = {
           },
         ],
       },
-      // typescript config taken from here: https://learntypescript.dev/12/l4-webpack
       {
         test: /\.(ts|js)?$/,
         exclude: /node_modules/,
@@ -73,13 +73,13 @@ module.exports = {
       },
       {
         test: /\.tsx?$/,
-        use: "ts-loader",
+        use: { loader: "ts-loader" },
         exclude: /node_modules/,
       },
     ],
   },
   resolve: {
-    extensions: [".ts", ".js", ".tsx", "jsx"],
+    extensions: [".ts", ".tsx", ".js", "jsx"],
   },
   plugins: [
     new MiniCssExtractPlugin(),
@@ -90,6 +90,13 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: "./src/index.html",
       filename: "./200.html",
+    }),
+    new ESLintPlugin({
+      extensions: ["ts", "tsx"],
+      fix: false,
+      emitError: true,
+      emitWarning: true,
+      failOnError: true,
     }),
     autoprefixer,
   ],
