@@ -1,6 +1,17 @@
-$content-color: blue;
+$bg-color: #47c4cc;
 
 .content {
+  margin: 0;
   width: 100%;
-  background-color: $content-color;
+  min-height: 100vh;
+  background-color: $bg-color;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+}
+
+.title {
+  font-size: 56px;
 }

@@ -1,0 +1,23 @@
+.loaderContainer {
+  height: 144px;
+  width: 360px;
+  background-color: hsla(0, 0, 100, 0.6);
+  border-radius: 2px;
+  display: flex;
+  flex-direction: column;
+  padding: 0px 12px;
+  box-sizing: border-box;
+  * {
+    color: lighten(black, 12);
+  }
+}
+.backButton {
+  cursor: pointer;
+}
+
+.headerRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+}
