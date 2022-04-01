@@ -1,6 +1,9 @@
 import { GraphQLClient, gql } from "graphql-request";
 import UserAgent from "user-agents";
-import { INVALID_URL, SERVER_ERROR } from "errors";
+import { INVALID_URL, SERVER_ERROR, REPOSITORY_NOT_FOUND } from "errors";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const endpoint = "https://api.github.com/graphql";
 
@@ -13,18 +16,34 @@ const graphQLClient = new GraphQLClient(endpoint, {
 
 const query = (owner: string, name: string) => gql`{
     repository(owner: "${owner}", name: "${name}") {
-      refs(refPrefix: "refs/heads/", orderBy: {direction: DESC, field: TAG_COMMIT_DATE}, first: 100) {
-        edges {
-          node {
-            ... on Ref {
-              name
-              target {
-                ... on Commit {
-                  history {
-                    edges {
-                      node {
-                        ... on Commit {
-                          committedDate
+        refs(refPrefix: "refs/heads/", orderBy: {direction: DESC, field: TAG_COMMIT_DATE}, first: 100) {
+            edges {
+              node {
+                ... on Ref {
+                  target {
+                    ... on Commit {
+                      history {
+                        edges {
+                          node {
+                            ... on Commit {
+                              author {
+                                email
+                                name
+                              }
+                              oid
+                              message
+                              committedDate
+                              associatedPullRequests(first:1) {
+                                edges {
+                                  node {
+                                    mergeCommit {
+                                      id
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
                         }
                       }
                     }
@@ -34,8 +53,6 @@ const query = (owner: string, name: string) => gql`{
             }
           }
         }
-      }
-    }
   }`;
 
 const parseUrl = (url: string) => {
@@ -53,9 +70,13 @@ export const getCommits = async (url: string) => {
   const [owner, name] = parseUrl(url);
   try {
     const data = await graphQLClient.request(query(owner, name));
-    console.log(data);
+    //TODO: process this to make it suitable for graph on frontend
+    return data;
   } catch (e: any) {
+    const msg = e.message;
     console.error(e);
+    if (msg.includes('[{"type":"NOT_FOUND",'))
+      throw REPOSITORY_NOT_FOUND(owner, name);
     throw SERVER_ERROR(e);
   }
 };

@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react";
-import { VizOptionType } from "../types";
+import { VizOptionType } from "../../../types";
 import styles from "./style.module.scss";
 
 interface VizOptionProps {

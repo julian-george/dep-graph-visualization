@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from "react";
 import styles from "./style.module.scss";
-import { VizOptionType } from "./types";
+import { VizOptionType } from "../../types";
 import VizOptionsRow from "./VizOptionsRow";
 import VizLoader from "./VizLoader";
 

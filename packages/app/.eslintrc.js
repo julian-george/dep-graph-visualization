@@ -36,6 +36,7 @@ module.exports = {
     "comma-dangle": 0,
     "import/prefer-default-export": 0,
     "prefer-template": 0,
+    "operator-linebreak": 0,
 
     "react/function-component-definition": 0,
     "react/require-default-props": 0,
@@ -43,5 +44,6 @@ module.exports = {
       2,
       { extensions: [".js", ".jsx", ".ts", ".tsx"] },
     ],
+    "@typescript-eslint/no-empty-function": 0,
   },
 };
