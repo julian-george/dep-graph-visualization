@@ -34,6 +34,8 @@ module.exports = {
     "import/extensions": 0,
     "no-use-before-define": 0,
     "comma-dangle": 0,
+    "import/prefer-default-export": 0,
+    "prefer-template": 0,
 
     "react/function-component-definition": 0,
     "react/require-default-props": 0,

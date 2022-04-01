@@ -3,6 +3,7 @@ import { Input, Button } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { VizOptionType } from "../types";
 import styles from "./style.module.scss";
+import { SERVER_URL } from "../../../constants";
 
 interface VizLoaderProps {
   optionType: VizOptionType;
@@ -12,8 +13,10 @@ interface VizLoaderProps {
 const VizLoader: React.FC<VizLoaderProps> = ({ optionType, resetOption }) => {
   const urlInput = useRef<HTMLInputElement>(null);
   const loadVisualization = useCallback(() => {
-    console.log(urlInput);
-    // Fetch stuff here
+    console.log(urlInput?.current?.value);
+    if (urlInput?.current?.value) {
+      console.log(fetch(SERVER_URL + `github?url=${urlInput.current.value}`));
+    }
   }, [urlInput]);
   return (
     <div className={styles.loaderContainer}>
