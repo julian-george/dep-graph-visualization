@@ -47,6 +47,11 @@ const VizLoader: React.FC<VizLoaderProps> = ({ optionType, resetOption }) => {
         <ArrowBackIcon className={styles.backButton} onClick={resetOption} />
         <h3>{`Insert ${optionType} URL here`}</h3>
       </div>
+      {optionType === "github" && (
+        <span className={styles.example}>
+          Ex: 'https://www.github.com/author/repo' or just 'author/repo'
+        </span>
+      )}
       <Input inputRef={urlInput} />
       <Button onClick={loadVisualization}>Submit</Button>
     </div>

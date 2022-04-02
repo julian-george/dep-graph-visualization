@@ -1,5 +1,5 @@
 .loaderContainer {
-  height: 144px;
+  height: 180px;
   width: 360px;
   background-color: hsla(0, 0, 100, 0.6);
   border-radius: 2px;
@@ -20,4 +20,8 @@
   flex-direction: row;
   align-items: center;
   gap: 12px;
+}
+
+.example {
+  font-size: 14px;
 }

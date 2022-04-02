@@ -14,6 +14,15 @@ const graphQLClient = new GraphQLClient(endpoint, {
   },
 });
 
+/**
+ * This query gets the 100 most recent head refs (most recent commit for each branch),
+ * then uses that ref's 'history' attribute to get all of that commits leading to that head.
+ * What results is essentially a list of branches, with each branch represented as a list of all of its commits.
+ * We also fetch the associatedPullRequests with the mergeCommit field to find where and when that branch was merged.
+ * Only the head and a few most recent commits will have an associatedPullRequests,
+ * so we check that field at the head to link it to the master branch
+ */
+
 const query = (owner: string, name: string) => gql`{
     repository(owner: "${owner}", name: "${name}") {
         refs(refPrefix: "refs/heads/", orderBy: {direction: DESC, field: TAG_COMMIT_DATE}, first: 100) {
