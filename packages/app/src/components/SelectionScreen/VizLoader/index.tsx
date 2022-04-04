@@ -3,6 +3,7 @@ import { Input, Button } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useSnackbar } from "notistack";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import { VizOptionType } from "../../../types";
 import styles from "./style.module.scss";
 import { SERVER_URL, FALLBACK_ERROR_MESSAGE } from "../../../constants";
@@ -15,6 +16,7 @@ interface VizLoaderProps {
 
 const VizLoader: React.FC<VizLoaderProps> = ({ optionType, resetOption }) => {
   const urlInput = useRef<HTMLInputElement>(null);
+  const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
   const { setContext } = useContext(AppContext);
   const loadVisualization = useCallback(() => {
@@ -25,9 +27,9 @@ const VizLoader: React.FC<VizLoaderProps> = ({ optionType, resetOption }) => {
         .then((response) => {
           setContext((prev: AppContextType) => ({
             ...prev,
-            page: "graph",
             graphData: response.data,
           }));
+          navigate("/github");
         })
         .catch((error) => {
           enqueueSnackbar(
@@ -49,7 +51,8 @@ const VizLoader: React.FC<VizLoaderProps> = ({ optionType, resetOption }) => {
       </div>
       {optionType === "github" && (
         <span className={styles.example}>
-          Ex: 'https://www.github.com/author/repo' or just 'author/repo'
+          Ex: &apos;https://www.github.com/author/repo&apos; or just
+          &apos;author/repo&apos;
         </span>
       )}
       <Input inputRef={urlInput} />

@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from "react";
 import { SnackbarProvider } from "notistack";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AppContext, defaultContext, AppContextType } from "../context";
 import SelectionScreen from "./SelectionScreen";
 import "./style.scss";
@@ -14,11 +15,12 @@ const App: React.FC = () => {
   return (
     <AppContext.Provider value={providerValue}>
       <SnackbarProvider maxSnack={2}>
-        {contextValues.page === "selection" ? (
-          <SelectionScreen />
-        ) : (
-          <GraphScreen />
-        )}
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<SelectionScreen />} />
+            <Route path="/github" element={<GraphScreen />} />
+          </Routes>
+        </BrowserRouter>
       </SnackbarProvider>
     </AppContext.Provider>
   );

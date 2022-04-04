@@ -1,8 +1,7 @@
 import React, { useContext } from "react";
-import { PageType, VizOptionType } from "./types";
+import { VizOptionType } from "./types";
 
 export type AppContextType = {
-  page: PageType;
   optionType: VizOptionType | null;
   graphData: any;
   graphMeta: any;
@@ -10,12 +9,19 @@ export type AppContextType = {
 };
 
 export const defaultContext: AppContextType = {
-  page: "selection",
   optionType: null,
   graphData: null,
   graphMeta: null,
   setContext: () => {},
 };
+
+// export const graphTestContext: AppContextType = {
+//   page: "graph",
+//   optionType: "github",
+//   graphData: null,
+//   graphMeta: null,
+//   setContext: () => {},
+// };
 
 export const AppContext = React.createContext<AppContextType>(defaultContext);
 

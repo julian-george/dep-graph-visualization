@@ -12,7 +12,7 @@ const SelectionScreen: React.FC = () => {
     setSelectedOption(null);
   }, [selectedOption]);
   return (
-    <div className={styles.content}>
+    <div className="content">
       <div className={styles.title}>depwiz</div>
       {selectedOption ? (
         <VizLoader

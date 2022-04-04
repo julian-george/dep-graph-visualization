@@ -80,6 +80,7 @@ export const getCommits = async (url: string) => {
   try {
     const data = await graphQLClient.request(query(owner, name));
     //TODO: process this to make it suitable for graph on frontend
+    console.log(data);
     return data;
   } catch (e: any) {
     const msg = e.message;
@@ -89,3 +90,5 @@ export const getCommits = async (url: string) => {
     throw SERVER_ERROR(e);
   }
 };
+
+const processCommits = () => {};

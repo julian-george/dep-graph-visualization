@@ -1,5 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Gudea:ital,wght@0,400;0,700;1,400&display=swap");
 
+$bg-color: #47c4cc;
+
 * {
   font-family: "Gudea";
   color: darken(white, 3);
@@ -7,4 +9,16 @@
 
 body {
   margin: 0;
+}
+
+.content {
+  margin: 0;
+  width: 100%;
+  min-height: 100vh;
+  background-color: $bg-color;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
 }
