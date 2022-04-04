@@ -1,21 +1,34 @@
-import React, { useRef, useMemo } from "react";
+import React, { useContext, useMemo } from "react";
 import CytoscapeComponent from "react-cytoscapejs";
+import cytoscape from "cytoscape";
+import dagre from "cytoscape-dagre";
+import { AppContext } from "../../context";
 import styles from "./style.module.scss";
 
+const GRAPH_WIDTH = 1200;
+const GRAPH_HEIGHT = 700;
+
 const GraphScreen: React.FC = () => {
-  const elements = [
-    { data: { id: "one", label: "Node 1" }, position: { x: 50, y: 50 } },
-    { data: { id: "two", label: "Node 2" }, position: { x: 100, y: 100 } },
-    {
-      data: { source: "one", target: "two", label: "Edge from Node1 to Node2" },
-    },
-  ];
+  cytoscape.use(dagre);
+  const { graphData } = useContext(AppContext);
+  // const stylesheet = useMemo(
+  //   () => ({
+  //     selector: "node",
+  //     style: {
+  //       width: GRAPH_HEIGHT / graphData.length,
+  //       height: GRAPH_HEIGHT / graphData.length,
+  //     },
+  //   }),
+  //   [graphData]
+  // );
   return (
     <div className="content">
       <div className={styles.graphContainer}>
         <CytoscapeComponent
-          elements={elements}
-          style={{ width: "600px", height: "600px" }}
+          elements={graphData}
+          style={{ width: `${GRAPH_WIDTH}px`, height: `${GRAPH_HEIGHT}px` }}
+          // stylesheet={stylesheet}
+          layout={{ name: "dagre" }}
         />
       </div>
     </div>

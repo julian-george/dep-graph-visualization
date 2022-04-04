@@ -2,10 +2,12 @@ import { GraphQLClient, gql } from "graphql-request";
 import UserAgent from "user-agents";
 import { INVALID_URL, SERVER_ERROR, REPOSITORY_NOT_FOUND } from "errors";
 import dotenv from "dotenv";
+import { GithubCommit, GithubData, GithubRef, GraphData } from "./types";
 
 dotenv.config();
 
 const endpoint = "https://api.github.com/graphql";
+const MAX_LABEL_LENGTH = 36;
 
 const graphQLClient = new GraphQLClient(endpoint, {
   headers: {
@@ -35,6 +37,13 @@ const query = (owner: string, name: string) => gql`{
                         edges {
                           node {
                             ... on Commit {
+                              parents(first:3) {
+                                edges{
+                                  node {
+                                    oid
+                                  }
+                                }
+                              }
                               author {
                                 email
                                 name
@@ -42,15 +51,6 @@ const query = (owner: string, name: string) => gql`{
                               oid
                               message
                               committedDate
-                              associatedPullRequests(first:1) {
-                                edges {
-                                  node {
-                                    mergeCommit {
-                                      id
-                                    }
-                                  }
-                                }
-                              }
                             }
                           }
                         }
@@ -79,9 +79,7 @@ export const getCommits = async (url: string) => {
   const [owner, name] = parseUrl(url);
   try {
     const data = await graphQLClient.request(query(owner, name));
-    //TODO: process this to make it suitable for graph on frontend
-    console.log(data);
-    return data;
+    return processCommits(data);
   } catch (e: any) {
     const msg = e.message;
     console.error(e);
@@ -91,4 +89,29 @@ export const getCommits = async (url: string) => {
   }
 };
 
-const processCommits = () => {};
+const processCommits = (gqlData: GithubData) => {
+  const parsedGraphData: GraphData = [];
+  const headRefs: GithubRef[] = gqlData.repository.refs.edges;
+  const mainCommits: GithubCommit[] = headRefs[0].node.target.history.edges.map(
+    (connection) => connection.node
+  );
+  for (let i = 0; i < mainCommits.length; i++) {
+    const commit = mainCommits[i];
+    parsedGraphData.push({
+      data: {
+        id: commit.oid,
+        label:
+          commit.message.length > MAX_LABEL_LENGTH
+            ? commit.message.substring(0, MAX_LABEL_LENGTH) + "..."
+            : commit.message,
+      },
+    });
+    const parents = commit.parents.edges.map((connection) => connection.node);
+    for (const parent of parents) {
+      parsedGraphData.push({
+        data: { source: commit.oid, target: parent.oid, label: "Parent" },
+      });
+    }
+  }
+  return parsedGraphData;
+};

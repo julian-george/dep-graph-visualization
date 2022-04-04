@@ -10,7 +10,7 @@ export type AppContextType = {
 
 export const defaultContext: AppContextType = {
   optionType: null,
-  graphData: null,
+  graphData: [],
   graphMeta: null,
   setContext: () => {},
 };

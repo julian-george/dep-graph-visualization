@@ -1,5 +1,5 @@
 import express from "express";
-import { getCommits } from "services/github";
+import { getCommits } from "services/github/github-service";
 
 const githubRouter = express.Router();
 
