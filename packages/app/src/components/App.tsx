@@ -18,7 +18,7 @@ const App: React.FC = () => {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<SelectionScreen />} />
-            <Route path="/github" element={<GraphScreen />} />
+            <Route path="/graph/:optionType/:url" element={<GraphScreen />} />
           </Routes>
         </BrowserRouter>
       </SnackbarProvider>

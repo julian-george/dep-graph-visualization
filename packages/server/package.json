@@ -8,6 +8,7 @@
     "start": "NODE_ENV=production ts-node -r tsconfig-paths/register src/index.ts"
   },
   "dependencies": {
+    "@dep-graph-visualization/shared": "1.0.0",
     "body-parser": "^1.19.2",
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",
@@ -24,6 +25,7 @@
     "@types/morgan": "^1.9.3",
     "@types/user-agents": "^1.0.2",
     "ts-node": "^10.7.0",
-    "ts-node-dev": "^1.1.8"
+    "ts-node-dev": "^1.1.8",
+    "tsconfig-paths": "^3.14.1"
   }
 }

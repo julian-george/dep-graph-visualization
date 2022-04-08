@@ -1,9 +1,10 @@
 import React, { useContext } from "react";
+import { GraphData } from "@dep-graph-visualization/shared";
 import { VizOptionType } from "./types";
 
 export type AppContextType = {
   optionType: VizOptionType | null;
-  graphData: any;
+  graphData: GraphData;
   graphMeta: any;
   setContext: React.Dispatch<React.SetStateAction<AppContextType>>;
 };

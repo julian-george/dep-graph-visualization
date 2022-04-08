@@ -3,14 +3,11 @@
 
   "compilerOptions": {
     "baseUrl": "src",
-    "outDir": "lib"
+    "outDir": "lib",
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "composite": true
   },
-
-  "references": [
-    {
-      "path": "../shared"
-    }
-  ],
 
   "include": ["src/**/*"]
 }

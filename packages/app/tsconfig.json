@@ -3,12 +3,16 @@
 
   "compilerOptions": {
     "baseUrl": "src",
-    "rootDir": "src",
     "outDir": "lib",
 
     "allowSyntheticDefaultImports": true,
     "plugins": [{ "name": "typescript-plugin-css-modules" }]
   },
+  "references": [
+    {
+      "path": "../shared"
+    }
+  ],
 
   "include": ["src/**/*"]
 }

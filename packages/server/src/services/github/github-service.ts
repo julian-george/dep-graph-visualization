@@ -2,7 +2,8 @@ import { GraphQLClient, gql } from "graphql-request";
 import UserAgent from "user-agents";
 import { INVALID_URL, SERVER_ERROR, REPOSITORY_NOT_FOUND } from "errors";
 import dotenv from "dotenv";
-import { GithubCommit, GithubData, GithubRef, GraphData } from "./types";
+import { GraphData } from "@dep-graph-visualization/shared";
+import { GithubCommit, GithubData, GithubRef } from "./types";
 
 dotenv.config();
 
@@ -65,9 +66,6 @@ const query = (owner: string, name: string) => gql`{
   }`;
 
 const parseUrl = (url: string) => {
-  url = url.replace("http://", "");
-  url = url.replace("https://", "");
-  url = url.replace("github.com/", "");
   const splitUrl = url.split("/");
   if (splitUrl.length !== 2) {
     throw INVALID_URL;
@@ -83,6 +81,7 @@ export const getCommits = async (url: string) => {
   } catch (e: any) {
     const msg = e.message;
     console.error(e);
+    //TODO: fix imperfect error detection
     if (msg.includes('[{"type":"NOT_FOUND",'))
       throw REPOSITORY_NOT_FOUND(owner, name);
     throw SERVER_ERROR(e);
@@ -97,6 +96,7 @@ const processCommits = (gqlData: GithubData) => {
   );
   for (let i = 0; i < mainCommits.length; i++) {
     const commit = mainCommits[i];
+    // Pushing the commit node to the graph data
     parsedGraphData.push({
       data: {
         id: commit.oid,
@@ -106,6 +106,7 @@ const processCommits = (gqlData: GithubData) => {
             : commit.message,
       },
     });
+    // Pushing the edges from the commit node to its parents
     const parents = commit.parents.edges.map((connection) => connection.node);
     for (const parent of parents) {
       parsedGraphData.push({

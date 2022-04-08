@@ -1,13 +1,10 @@
-import React, { useCallback, useRef, useContext } from "react";
+import React, { useCallback, useRef } from "react";
 import { Input, Button } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { useSnackbar } from "notistack";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useSnackbar } from "notistack";
 import { VizOptionType } from "../../../types";
 import styles from "./style.module.scss";
-import { SERVER_URL, FALLBACK_ERROR_MESSAGE } from "../../../constants";
-import { AppContext, AppContextType } from "../../../context";
 
 interface VizLoaderProps {
   optionType: VizOptionType;
@@ -18,25 +15,13 @@ const VizLoader: React.FC<VizLoaderProps> = ({ optionType, resetOption }) => {
   const urlInput = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
-  const { setContext } = useContext(AppContext);
   const loadVisualization = useCallback(() => {
-    const url = urlInput?.current?.value;
+    let url = urlInput?.current?.value;
     if (url) {
-      axios
-        .get(SERVER_URL + "github", { params: { url } })
-        .then((response) => {
-          setContext((prev: AppContextType) => ({
-            ...prev,
-            graphData: response.data,
-          }));
-          navigate("/github");
-        })
-        .catch((error) => {
-          enqueueSnackbar(
-            `Error: ${error.response.data || FALLBACK_ERROR_MESSAGE}`,
-            { variant: "error" }
-          );
-        });
+      url = url.replace("http://", "");
+      url = url.replace("https://", "");
+      url = url.replace("github.com/", "");
+      navigate(`/graph/${optionType}/${encodeURIComponent(url)}`);
     } else {
       enqueueSnackbar("Please enter a URL in the text input.", {
         variant: "error",

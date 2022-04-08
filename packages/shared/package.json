@@ -1,0 +1,6 @@
+{
+  "name": "@dep-graph-visualization/shared",
+  "version": "1.0.0",
+  "license": "None",
+  "main": "src/index.ts"
+}

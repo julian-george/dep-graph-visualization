@@ -1,5 +1,4 @@
 import React, { ReactNode } from "react";
-import { Link } from "react-router-dom";
 import { VizOptionType } from "../../../types";
 import styles from "./style.module.scss";
 
